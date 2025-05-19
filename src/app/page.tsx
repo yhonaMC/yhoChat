@@ -11,7 +11,7 @@ import { GEMINI_CONFIG } from '@/lib/config/gemini'
 export default function Home() {
   return (
     <GeminiProvider
-      apiKey={GEMINI_CONFIG.API_KEY}
+      apiKey={GEMINI_CONFIG.API_KEY || ''}
       modelName={GEMINI_CONFIG.MODEL_NAME}
     >
       <ChatApp />

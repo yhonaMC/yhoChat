@@ -17,7 +17,6 @@ interface ChatLayoutProps {
 export const ChatLayout = ({ sidebar, content, input }: ChatLayoutProps) => {
   return (
     <div className="flex h-screen flex-col md:flex-row">
-      {/* Sidebar */}
       <div className="flex w-full flex-col bg-sidebar md:w-80">
         <div className="flex items-center justify-between p-4">
           <div className="flex items-center gap-2">
@@ -85,7 +84,6 @@ export const ChatLayout = ({ sidebar, content, input }: ChatLayoutProps) => {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="flex flex-1 flex-col bg-background">
         <div className="flex-1 overflow-auto">{content}</div>
         <div className="mt-auto">{input}</div>

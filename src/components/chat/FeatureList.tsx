@@ -5,7 +5,6 @@ interface FeatureListProps {
   features?: Feature[]
 }
 
-// Default features if none provided
 const defaultFeatures: Feature[] = [
   {
     id: '1',

@@ -17,7 +17,6 @@ export const useChat = () => {
   } = useChatStore()
   const { geminiService, isInitialized } = useGemini()
 
-  // Convertir las conversaciones al formato que espera la API de Gemini
   const getChatHistory = useCallback(() => {
     if (!currentConversationId) return []
 
@@ -35,29 +34,24 @@ export const useChat = () => {
   const handleSendMessage = useCallback(async () => {
     if (!inputValue.trim() || !isInitialized || !geminiService) return
 
-    // Si no hay una conversación activa, crear una nueva
     if (!currentConversationId) {
       createNewConversation()
     }
 
-    // Añadir el mensaje del usuario al estado
     addMessage(inputValue, 'user')
     setInputValue('')
     setIsLoading(true)
 
     try {
-      // Obtener el historial de chat actual
       const history = getChatHistory()
 
-      // Añadir el mensaje del usuario actual
       history.push({
         role: 'user',
         content: inputValue
       })
 
-      // Solicitar respuesta a Gemini
       const response = await geminiService.generateChatResponse(history)
-      // Añadir la respuesta al estado
+
       addMessage(response.text, 'assistant')
     } catch (error) {
       console.error('Error al generar respuesta:', error)
