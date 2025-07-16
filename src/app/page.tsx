@@ -1,12 +1,21 @@
 'use client'
 
-import { useChat } from '@/hooks/useChat'
-import { ChatLayout } from '@/components/layout/ChatLayout'
-import { ConversationList } from '@/components/chat/ConversationList'
-import { ChatWindow } from '@/components/chat/ChatWindow'
-import { ChatInput } from '@/components/chat/ChatInput'
+import dynamic from 'next/dynamic'
 import { GeminiProvider } from '@/lib/context/GeminiContext'
 import { GEMINI_CONFIG } from '@/lib/config/gemini'
+
+// Importar dinámicamente el componente principal sin SSR
+const ChatApp = dynamic(() => import('../app/ChatApp'), {
+  ssr: false,
+  loading: () => (
+    <main className="h-screen bg-background text-foreground flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+        <p className="text-foreground/60">Loading YHOCHAT...</p>
+      </div>
+    </main>
+  )
+})
 
 export default function Home() {
   return (
@@ -16,49 +25,5 @@ export default function Home() {
     >
       <ChatApp />
     </GeminiProvider>
-  )
-}
-
-function ChatApp() {
-  const {
-    inputValue,
-    isLoading,
-    conversations,
-    currentConversation,
-    handleInputChange,
-    handleSendMessage,
-    handleCreateNewChat,
-    handleKeyDown,
-    setCurrentConversation
-  } = useChat()
-
-  return (
-    <main className="h-screen bg-background text-foreground">
-      <ChatLayout
-        sidebar={
-          <ConversationList
-            conversations={conversations}
-            currentConversationId={currentConversation?.id || null}
-            onCreateNewChat={handleCreateNewChat}
-            onSelectConversation={setCurrentConversation}
-          />
-        }
-        content={
-          <ChatWindow
-            conversation={currentConversation}
-            isLoading={isLoading}
-          />
-        }
-        input={
-          <ChatInput
-            value={inputValue}
-            onChange={handleInputChange}
-            onSend={handleSendMessage}
-            onKeyDown={handleKeyDown}
-            isLoading={isLoading}
-          />
-        }
-      />
-    </main>
   )
 }

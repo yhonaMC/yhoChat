@@ -141,3 +141,138 @@
     animation-delay: 600ms;
   }
 }
+
+/* Animaciones personalizadas para el sidebar */
+@layer components {
+  .sidebar-enter {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  .sidebar-enter-active {
+    transform: translateX(0);
+    opacity: 1;
+    transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+  }
+
+  .sidebar-exit {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .sidebar-exit-active {
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+  }
+
+  /* Animación suave para el contenido principal */
+  .content-shift {
+    transition: margin-left 300ms ease-in-out, width 300ms ease-in-out;
+  }
+
+  /* Efecto de hover mejorado para botones del sidebar */
+  .sidebar-button {
+    @apply transition-all duration-200 ease-in-out;
+    @apply hover:scale-[1.02] hover:shadow-sm;
+  }
+
+  /* Animación de entrada para elementos del sidebar */
+  .sidebar-item {
+    animation: slideInFromLeft 0.3s ease-out;
+  }
+
+  @keyframes slideInFromLeft {
+    from {
+      transform: translateX(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  /* Animación de pulsación para botones activos */
+  .pulse-on-active {
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+    }
+  }
+
+  /* Animaciones para botón flotante */
+  .fab-bounce-in {
+    animation: fabBounceIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .fab-bounce-out {
+    animation: fabBounceOut 0.3s ease-in forwards;
+  }
+
+  @keyframes fabBounceIn {
+    0% {
+      transform: scale(0) translateY(100px);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.1) translateY(-10px);
+    }
+    100% {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fabBounceOut {
+    0% {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0) translateY(100px);
+      opacity: 0;
+    }
+  }
+
+  /* Efecto de ondas al tocar en móvil */
+  .ripple-effect {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ripple-effect::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: width 0.3s, height 0.3s, top 0.3s, left 0.3s;
+    transform: translate(-50%, -50%);
+  }
+
+  .ripple-effect:active::before {
+    width: 300px;
+    height: 300px;
+    top: 50%;
+    left: 50%;
+  }
+
+  /* Mejora de tap targets para móvil */
+  @media (max-width: 768px) {
+    .touch-target {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
+}

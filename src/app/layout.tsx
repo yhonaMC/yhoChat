@@ -1,32 +1,27 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import './globals.css'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin']
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin']
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter'
 })
 
 export const metadata: Metadata = {
-  title: 'Yhochat',
-  description:
-    'Yhochat is your personal AI-powered assistant, ready to help you navigate your day and provide valuable insights.'
+  title: 'YHOCHAT - AI Chat Assistant',
+  description: 'Advanced AI chat assistant powered by Gemini'
 }
 
 export default function RootLayout({
   children
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} font-sans antialiased`}
+        suppressHydrationWarning
       >
         {children}
       </body>

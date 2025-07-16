@@ -13,7 +13,8 @@ export const useChat = () => {
     currentConversationId,
     addMessage,
     createNewConversation,
-    setCurrentConversation
+    setCurrentConversation,
+    deleteConversation
   } = useChatStore()
   const { geminiService, isInitialized } = useGemini()
 
@@ -76,6 +77,13 @@ export const useChat = () => {
     createNewConversation()
   }, [createNewConversation])
 
+  const handleDeleteConversation = useCallback(
+    (id: string) => {
+      deleteConversation(id)
+    },
+    [deleteConversation]
+  )
+
   const handleInputChange = useCallback((value: string) => {
     setInputValue(value)
   }, [])
@@ -102,6 +110,7 @@ export const useChat = () => {
     handleInputChange,
     handleSendMessage,
     handleCreateNewChat,
+    handleDeleteConversation,
     handleKeyDown,
     setCurrentConversation
   }
