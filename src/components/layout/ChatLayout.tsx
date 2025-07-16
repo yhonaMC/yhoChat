@@ -9,7 +9,6 @@ import {
 } from 'react-icons/fi'
 import { Button } from '@/components/ui/Button'
 import { Backdrop } from '@/components/ui/Backdrop'
-import { FloatingActionButton } from '@/components/ui/FloatingActionButton'
 import { Modal } from '@/components/ui/Modal'
 import { HowItWorks } from '@/components/info/HowItWorks'
 import { AboutYhochat } from '@/components/info/AboutYhochat'
@@ -216,16 +215,6 @@ export const ChatLayout = ({
         {/* Chat input */}
         <div className="mt-auto">{input}</div>
       </div>
-
-      {/* Floating button for new conversation (mobile only) */}
-      {onCreateNewChat && (
-        <FloatingActionButton
-          onClick={handleNewChatClick}
-          isVisible={isMobile && !isOpen}
-          label="Create new chat"
-          size="md"
-        />
-      )}
 
       {/* Modals */}
       <Modal

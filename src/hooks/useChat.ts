@@ -74,8 +74,9 @@ export const useChat = () => {
   ])
 
   const handleCreateNewChat = useCallback(() => {
-    createNewConversation()
-  }, [createNewConversation])
+    // Only clear current conversation, don't create new one until user types something
+    setCurrentConversation('')
+  }, [setCurrentConversation])
 
   const handleDeleteConversation = useCallback(
     (id: string) => {
