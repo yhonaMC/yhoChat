@@ -1,6 +1,5 @@
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 import {
-  FiSettings,
   FiMenu,
   FiHelpCircle,
   FiInfo,
@@ -11,6 +10,9 @@ import {
 import { Button } from '@/components/ui/Button'
 import { Backdrop } from '@/components/ui/Backdrop'
 import { FloatingActionButton } from '@/components/ui/FloatingActionButton'
+import { Modal } from '@/components/ui/Modal'
+import { HowItWorks } from '@/components/info/HowItWorks'
+import { AboutYhochat } from '@/components/info/AboutYhochat'
 import { useSidebar } from '@/hooks/useSidebar'
 import { cn } from '@/lib/utils'
 
@@ -28,16 +30,36 @@ export const ChatLayout = ({
   onCreateNewChat
 }: ChatLayoutProps) => {
   const { isOpen, isMobile, toggle, close } = useSidebar({
-    defaultOpen: false, // En móvil empezar cerrado para mejor UX
+    defaultOpen: false, // Start closed on mobile for better UX
     breakpoint: 768,
     persistState: true,
     storageKey: 'yhochat-sidebar',
     autoCloseOnMobile: false // No cerrar automáticamente
   })
 
+  // States for modals
+  const [isHowItWorksOpen, setIsHowItWorksOpen] = useState(false)
+  const [isAboutYhochatOpen, setIsAboutYhochatOpen] = useState(false)
+
   const handleNewChatClick = () => {
     onCreateNewChat?.()
-    // En móvil, cerrar sidebar después de crear nueva conversación
+    // On mobile, close sidebar after creating new conversation
+    if (isMobile) {
+      close()
+    }
+  }
+
+  const handleHowItWorksClick = () => {
+    setIsHowItWorksOpen(true)
+    // On mobile, close sidebar after opening modal
+    if (isMobile) {
+      close()
+    }
+  }
+
+  const handleAboutYhochatClick = () => {
+    setIsAboutYhochatOpen(true)
+    // On mobile, close sidebar after opening modal
     if (isMobile) {
       close()
     }
@@ -45,7 +67,7 @@ export const ChatLayout = ({
 
   return (
     <div className="flex h-screen flex-col md:flex-row relative">
-      {/* Backdrop para móvil */}
+      {/* Backdrop for mobile */}
       <Backdrop isVisible={isMobile && isOpen} onClick={close} />
 
       {/* Sidebar */}
@@ -65,7 +87,7 @@ export const ChatLayout = ({
             : 'translate-x-0'
         )}
       >
-        {/* Header del Sidebar */}
+        {/* Sidebar Header */}
         <div className="flex items-center justify-between p-4 border-b border-sidebar-border/10">
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-md bg-sidebar-primary">
@@ -77,7 +99,7 @@ export const ChatLayout = ({
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Botón cerrar en móvil */}
+            {/* Close button on mobile */}
             {isMobile && (
               <Button
                 variant="ghost"
@@ -92,7 +114,7 @@ export const ChatLayout = ({
           </div>
         </div>
 
-        {/* Navegación fija */}
+        {/* Fixed navigation */}
         <div className="mt-4 px-4">
           <h2 className="mb-2 text-xs font-semibold text-sidebar-foreground/70">
             TODAY
@@ -104,13 +126,19 @@ export const ChatLayout = ({
               </div>
               <span>Get Started</span>
             </button>
-            <button className="flex w-full items-center gap-3 rounded-md p-3 text-left text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent/50">
+            <button
+              className="flex w-full items-center gap-3 rounded-md p-3 text-left text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent/50"
+              onClick={handleHowItWorksClick}
+            >
               <div className="flex h-5 w-5 items-center justify-center rounded-full bg-sidebar-primary/20 text-sidebar-primary">
                 <FiInfo className="h-4 w-4" />
               </div>
               <span>How it works?</span>
             </button>
-            <button className="flex w-full items-center gap-3 rounded-md p-3 text-left text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent/50">
+            <button
+              className="flex w-full items-center gap-3 rounded-md p-3 text-left text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent/50"
+              onClick={handleAboutYhochatClick}
+            >
               <div className="flex h-5 w-5 items-center justify-center rounded-full bg-sidebar-primary/20 text-sidebar-primary">
                 <FiFileText className="h-4 w-4" />
               </div>
@@ -119,10 +147,10 @@ export const ChatLayout = ({
           </div>
         </div>
 
-        {/* Contenido del sidebar (conversaciones) */}
+        {/* Sidebar content (conversations) */}
         <div className="flex-1 overflow-auto">{sidebar}</div>
 
-        {/* Footer del sidebar */}
+        {/* Sidebar footer */}
         <div className="mt-auto border-t border-sidebar-border/10 p-2">
           <button className="flex w-full items-center gap-3 rounded-md p-3 text-left text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent/50">
             <div className="flex h-5 w-5 items-center justify-center rounded-full bg-sidebar-primary/20 text-sidebar-primary">
@@ -130,18 +158,12 @@ export const ChatLayout = ({
             </div>
             <span>FAQ</span>
           </button>
-          <button className="flex w-full items-center gap-3 rounded-md p-3 text-left text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent/50">
-            <div className="flex h-5 w-5 items-center justify-center rounded-full bg-sidebar-primary/20 text-sidebar-primary">
-              <FiSettings className="h-4 w-4" />
-            </div>
-            <span>Settings</span>
-          </button>
         </div>
       </div>
 
-      {/* Área principal del chat */}
+      {/* Main chat area */}
       <div className="flex flex-1 flex-col bg-background min-w-0">
-        {/* Header del chat con botón de menú */}
+        {/* Chat header with menu button */}
         <div className="flex items-center justify-between p-4 border-b border-border/10 bg-background/95 backdrop-blur-sm">
           <div className="flex items-center gap-3">
             <Button
@@ -161,7 +183,7 @@ export const ChatLayout = ({
           </div>
 
           <div className="flex items-center gap-3">
-            {/* Botón New Chat en el header para móvil */}
+            {/* New Chat button in header for mobile */}
             {isMobile && onCreateNewChat && (
               <Button
                 variant="outline"
@@ -175,7 +197,7 @@ export const ChatLayout = ({
               </Button>
             )}
 
-            {/* Indicador de estado del sidebar en desktop */}
+            {/* Sidebar state indicator on desktop */}
             <div className="hidden md:flex items-center gap-2 text-xs text-muted-foreground">
               <div
                 className={cn(
@@ -188,14 +210,14 @@ export const ChatLayout = ({
           </div>
         </div>
 
-        {/* Contenido del chat */}
+        {/* Chat content */}
         <div className="flex-1 overflow-auto">{content}</div>
 
-        {/* Input del chat */}
+        {/* Chat input */}
         <div className="mt-auto">{input}</div>
       </div>
 
-      {/* Botón flotante para nueva conversación (solo móvil) */}
+      {/* Floating button for new conversation (mobile only) */}
       {onCreateNewChat && (
         <FloatingActionButton
           onClick={handleNewChatClick}
@@ -204,6 +226,25 @@ export const ChatLayout = ({
           size="md"
         />
       )}
+
+      {/* Modals */}
+      <Modal
+        isOpen={isHowItWorksOpen}
+        onClose={() => setIsHowItWorksOpen(false)}
+        title="How it Works?"
+        maxWidth="2xl"
+      >
+        <HowItWorks />
+      </Modal>
+
+      <Modal
+        isOpen={isAboutYhochatOpen}
+        onClose={() => setIsAboutYhochatOpen(false)}
+        title="About Yhochat"
+        maxWidth="2xl"
+      >
+        <AboutYhochat />
+      </Modal>
     </div>
   )
 }
