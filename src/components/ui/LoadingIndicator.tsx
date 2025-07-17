@@ -69,7 +69,7 @@ export const ChatLoadingIndicator = () => {
         <div className="text-sm font-medium">Assistant</div>
         <div className="flex items-center space-x-1 text-sm text-foreground/80">
           <div className="inline-flex items-center space-x-2">
-            <span className="font-medium">Un momento...</span>
+            <span className="font-medium">One moment...</span>
             <span className="relative flex h-2 w-16">
               <span className="absolute inline-flex h-2 w-2 animate-bounce rounded-full bg-sidebar-primary"></span>
               <span className="absolute inline-flex h-2 w-2 animate-bounce rounded-full bg-sidebar-primary animation-delay-150 left-2"></span>
